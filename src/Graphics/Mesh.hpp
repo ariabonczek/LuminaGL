@@ -20,9 +20,12 @@ public:
 
 	void Draw();
 private:
-	uint vbo;
-	uint vao;
+	uint vertexBuffer;
+	uint vertexArray;
+	uint indexBuffer;
+
 	uint numVertices;
+	uint numIndices;
 };
 
 NS_END

@@ -5,13 +5,16 @@ NS_BEGIN
 
 Mesh::Mesh(MeshData& data)
 {
+	///
+	// Vertex Buffer
+	///
 	numVertices = data.numVertices;
 
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+	glGenVertexArrays(1, &vertexArray);
+	glBindVertexArray(vertexArray);
 
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glGenBuffers(1, &vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshVertex) * numVertices, data.vertices, GL_STATIC_DRAW);
 
@@ -28,37 +31,47 @@ Mesh::Mesh(MeshData& data)
 	glEnableVertexAttribArray(3);
 	glEnableVertexAttribArray(4);
 
+	///
+	// Index Buffer
+	///
+	numIndices = data.numIndices;
+
+	glGenBuffers(1, &indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, data.indices, GL_STATIC_DRAW);
 }
 
 Mesh::Mesh(const Mesh& mesh)
 {
-	vbo = mesh.vbo;
-	vao = mesh.vao;
+	vertexBuffer = mesh.vertexBuffer;
+	vertexArray = mesh.vertexArray;
 	numVertices = mesh.numVertices;
 }
 
 Mesh::~Mesh()
 {
-	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &vertexBuffer);
+	glDeleteBuffers(1, &indexBuffer);
 }
 
 Mesh& Mesh::operator=(const Mesh& mesh)
 {
-	vbo = mesh.vbo;
-	vao = mesh.vao;
+	vertexBuffer = mesh.vertexBuffer;
+	vertexArray = mesh.vertexArray;
 	numVertices = mesh.numVertices;
 	return *this;
 }
 
 void Mesh::Bind()
 {
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindVertexArray(vertexArray);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 }
 
 void Mesh::Draw()
 {
-	glDrawArrays(GL_TRIANGLES, 0, numVertices);
+	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, (void*)0);
 }
 
 NS_END

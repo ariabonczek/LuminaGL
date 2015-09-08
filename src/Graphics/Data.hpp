@@ -49,6 +49,9 @@ struct MeshData
 {
 	MeshVertex* vertices;
 	uint numVertices;
+
+	uint* indices;
+	uint numIndices;
 };
 
 NS_END

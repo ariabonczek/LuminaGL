@@ -8,15 +8,21 @@ TestScene::~TestScene()
 
 void TestScene::LoadAssets()
 {
-	MeshVertex vertices[3] = 
+	MeshVertex vertices[4] = 
 	{
-		{ Vector3(0.0f, 0.5f, 0.0f), Vector2(0.0f, 0.0f), Color(0.0f, 1.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f) },
-		{ Vector3(0.5f, -0.5f, 0.0f), Vector2(0.0f, 0.0f), Color(1.0f, 1.0f, 0.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f) },
-		{ Vector3(-0.5f, -0.5f, 0.0f), Vector2(0.0f, 0.0f), Color(1.0f, 0.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f) }
+		{ Vector3(-0.5f, 0.5f, 0.0f), Vector2(0.0f, 0.0f), Color(0.0f, 1.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f) },
+		{ Vector3(0.5f, 0.5f, 0.0f), Vector2(0.0f, 0.0f), Color(0.0f, 1.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f) },
+		{ Vector3(-0.5f, -0.5f, 0.0f), Vector2(0.0f, 0.0f), Color(1.0f, 1.0f, 0.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f) },
+		{ Vector3(0.5f, -0.5f, 0.0f), Vector2(0.0f, 0.0f), Color(1.0f, 0.0f, 1.0f, 1.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f) }
 	};
+
+	uint indices[6] = { 0, 1, 2, 1, 2, 3};
+
 	MeshData data;
 	data.vertices = vertices;
-	data.numVertices = 3;
+	data.numVertices = 4;
+	data.indices = indices;
+	data.numIndices = 6;
 
 	mesh = new Mesh(data);
 
