@@ -23,7 +23,7 @@ struct Color
 	static Color Cyan;
 };
 
-struct BaseVertex
+struct BaseVertex 
 {
 	Vector3 position;
 	Vector2 texcoord;
@@ -47,8 +47,8 @@ struct MeshVertex
 
 struct MeshData
 {
-	std::vector<MeshVertex> vertices;
-	std::vector<uint> indices;
+	MeshVertex* vertices;
+	uint numVertices;
 };
 
 NS_END

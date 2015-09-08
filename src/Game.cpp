@@ -1,5 +1,7 @@
 #include "Game.hpp"
 
+#include "Utility\Timer.hpp"
+
 NS_BEGIN
 
 Game Game::instance;
@@ -18,16 +20,22 @@ int Game::Run()
 {
 	Initialize();
 
+	scene.LoadAssets();
+
 	// Game Loop
 	while (!window.ShouldClose())
 	{
+		Timer::StartFrame();
 		window.Clear();
 
-		scene.Update(0.0167f);
+		scene.Update(Timer::GetFrameTime());
 		scene.Draw();
 
 		window.Display();
+		Timer::StopFrame();
 	}
+
+	scene.UnloadAssets();
 
 	Shutdown();
 
@@ -41,6 +49,8 @@ Game::Game()
 
 bool Game::Initialize()
 {
+	Timer::Initialize();
+
 	if (!glfwInit())
 		return false;
 

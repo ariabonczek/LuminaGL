@@ -91,7 +91,7 @@
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)content\* "$(OutDir)" /s /y
+      <Command>xcopy "$(SolutionDir)content\*" "$(OutDir)" /s /y
 xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
 </Command>
     </PostBuildEvent>
@@ -121,7 +121,7 @@ xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)content\* "$(OutDir)" /s /y
+      <Command>xcopy "$(SolutionDir)content\*" "$(OutDir)" /s /y
 xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
 </Command>
     </PostBuildEvent>
@@ -143,26 +143,34 @@ xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics\Data.cpp" />
+    <ClCompile Include="Graphics\Material.cpp" />
+    <ClCompile Include="Graphics\Mesh.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Math\Math.cpp" />
     <ClCompile Include="Math\Matrix.cpp" />
     <ClCompile Include="Math\Quaternion.cpp" />
     <ClCompile Include="Math\Vector.cpp" />
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="Utility\FileSystem.cpp" />
+    <ClCompile Include="Utility\Timer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Graphics\Data.hpp" />
+    <ClInclude Include="Graphics\Graphics.hpp" />
     <ClInclude Include="Graphics\Material.hpp" />
     <ClInclude Include="Graphics\Mesh.hpp" />
+    <ClInclude Include="LuminaGL.hpp" />
     <ClInclude Include="Math\Math.hpp" />
     <ClInclude Include="Math\Matrix.hpp" />
     <ClInclude Include="Math\Quaternion.hpp" />
     <ClInclude Include="Math\Vector.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="TestScene.hpp" />
+    <ClInclude Include="Utility\FileSystem.hpp" />
+    <ClInclude Include="Utility\Timer.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

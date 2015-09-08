@@ -1,10 +1,11 @@
 #ifndef TESTSCENE_HPP
 #define TESTSCENE_HPP
 
-#include "Config.hpp"
-#include "Scene.hpp"
+#include "LuminaGL.hpp"
 
-class TestScene : public LuminaGL::Scene
+using namespace LuminaGL;
+
+class TestScene : public Scene
 {
 public:
 	TestScene();
@@ -13,8 +14,10 @@ public:
 	void LoadAssets();
 	void Update(float dt);
 	void Draw();
+	void UnloadAssets();
 private:
-
+	Mesh* mesh;
+	Material* mat;
 };
 
 
