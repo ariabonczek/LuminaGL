@@ -91,10 +91,16 @@
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)content\*" "$(OutDir)" /s /y
-xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>xcopy "$(SolutionDir)content\*" "$(OutDir)" /s /y
+xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>dummy.txt</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -121,10 +127,16 @@ xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
       <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)content\*" "$(OutDir)" /s /y
-xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>xcopy "$(SolutionDir)content\*" "$(OutDir)" /s /y
+xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y</Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>dummy.txt</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -142,6 +154,7 @@ xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Graphics\Camera.cpp" />
     <ClCompile Include="Graphics\Data.cpp" />
     <ClCompile Include="Graphics\Material.cpp" />
     <ClCompile Include="Graphics\Mesh.cpp" />
@@ -153,12 +166,14 @@ xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
     <ClCompile Include="Math\Vector.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="Utility\FileSystem.cpp" />
+    <ClCompile Include="Utility\Input.cpp" />
     <ClCompile Include="Utility\Timer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Graphics\Camera.hpp" />
     <ClInclude Include="Graphics\Data.hpp" />
     <ClInclude Include="Graphics\Graphics.hpp" />
     <ClInclude Include="Graphics\Material.hpp" />
@@ -172,6 +187,7 @@ xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="TestScene.hpp" />
     <ClInclude Include="Utility\FileSystem.hpp" />
+    <ClInclude Include="Utility\Input.hpp" />
     <ClInclude Include="Utility\Timer.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>

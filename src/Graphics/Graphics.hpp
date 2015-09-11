@@ -4,5 +4,7 @@
 #include "Data.hpp"
 #include "Mesh.hpp"
 #include "Material.hpp"
+#include "MeshBuilder.hpp"
+#include "Camera.hpp"
 
 #endif

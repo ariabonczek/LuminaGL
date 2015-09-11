@@ -16,8 +16,15 @@ public:
 	void Draw();
 	void UnloadAssets();
 private:
+	void MoveCamera(float dt);
+
+	Camera camera;
 	Mesh* mesh;
 	Material* mat;
+
+	Mesh* mesh2;
+	Matrix world;
+	Matrix world2;
 };
 
 

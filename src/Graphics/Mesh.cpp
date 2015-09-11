@@ -8,7 +8,7 @@ Mesh::Mesh(MeshData& data)
 	///
 	// Vertex Buffer
 	///
-	numVertices = data.numVertices;
+	numVertices = data.vertices.size();
 
 	glGenVertexArrays(1, &vertexArray);
 	glBindVertexArray(vertexArray);
@@ -16,7 +16,7 @@ Mesh::Mesh(MeshData& data)
 	glGenBuffers(1, &vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshVertex) * numVertices, data.vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshVertex) * numVertices, &data.vertices[0], GL_STATIC_DRAW);
 
 	// Setup MeshVertex data
 	/* Position: */ glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 15, 0);
@@ -34,18 +34,20 @@ Mesh::Mesh(MeshData& data)
 	///
 	// Index Buffer
 	///
-	numIndices = data.numIndices;
+	numIndices = data.indices.size();
 
 	glGenBuffers(1, &indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, data.indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, &data.indices[0], GL_STATIC_DRAW);
 }
 
 Mesh::Mesh(const Mesh& mesh)
 {
 	vertexBuffer = mesh.vertexBuffer;
 	vertexArray = mesh.vertexArray;
+	indexBuffer = mesh.indexBuffer;
 	numVertices = mesh.numVertices;
+	numIndices = mesh.numIndices;
 }
 
 Mesh::~Mesh()
@@ -58,7 +60,9 @@ Mesh& Mesh::operator=(const Mesh& mesh)
 {
 	vertexBuffer = mesh.vertexBuffer;
 	vertexArray = mesh.vertexArray;
+	indexBuffer = mesh.indexBuffer;
 	numVertices = mesh.numVertices;
+	numIndices = mesh.numIndices;
 	return *this;
 }
 
@@ -71,6 +75,7 @@ void Mesh::Bind()
 
 void Mesh::Draw()
 {
+	Bind();
 	glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, (void*)0);
 }
 

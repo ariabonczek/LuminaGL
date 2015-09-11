@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include "Utility\Input.hpp"
 
 NS_BEGIN
 
@@ -16,10 +17,23 @@ void Window::Initialize(uint width, uint height, std::string title)
 {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	// Enable multisampling
+	glfwWindowHint(GLFW_SAMPLES, MSAA_SAMPLES);
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	glfwMakeContextCurrent(window);
 
+	glfwSwapInterval(1);
+
+	// Back-face culling
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CW);
+
+	glEnable(GL_MULTISAMPLE);
+
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	Input::Initialize(window);
 }
 
 void Window::Clear()

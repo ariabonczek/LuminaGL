@@ -47,11 +47,18 @@ struct MeshVertex
 
 struct MeshData
 {
-	MeshVertex* vertices;
-	uint numVertices;
+	MeshData() {}
+	MeshData(MeshVertex* verts, uint numVertices, uint* inds, uint numIndices)
+	{
+		vertices.resize(numVertices);
+		memcpy(&vertices[0], verts, sizeof(MeshVertex) * numVertices);
 
-	uint* indices;
-	uint numIndices;
+		indices.resize(numIndices);
+		memcpy(&indices[0], inds, sizeof(uint) * numIndices);
+	}
+	
+	std::vector<MeshVertex> vertices;
+	std::vector<uint> indices;
 };
 
 NS_END

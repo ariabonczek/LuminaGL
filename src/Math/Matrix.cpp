@@ -138,42 +138,18 @@ Matrix operator*(float s, Matrix& m)
 		);
 }
 
-float Matrix::operator[](int index)
+Vector4 Matrix::operator[](int index)
 {
 	switch (index)
 	{
 	case 0:
-		return m11;
+		return Vector4(m11, m12, m13, m14);
 	case 1:
-		return m12;
+		return Vector4(m21, m22, m23, m24);
 	case 2:
-		return m13;
+		return Vector4(m31, m32, m33, m34);
 	case 3:
-		return m14;
-	case 4:
-		return m21;
-	case 5:
-		return m22;
-	case 6:
-		return m23;
-	case 7:
-		return m24;
-	case 8:
-		return m31;
-	case 9:
-		return m32;
-	case 10:
-		return m33;
-	case 11:
-		return m34;
-	case 12:
-		return m41;
-	case 13:
-		return m42;
-	case 14:
-		return m43;
-	case 15:
-		return m44;
+		return Vector4(m14, m42, m43, m44);
 	default:
 		throw "[Matrix] IndexOutOfRange Exception";
 	}

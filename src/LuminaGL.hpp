@@ -4,5 +4,6 @@
 #include "Config.hpp"
 #include "Scene.hpp"
 #include "Graphics\Graphics.hpp"
+#include "Utility\Input.hpp"
 
 #endif

@@ -1,5 +1,6 @@
 #include "Material.hpp"
 #include "../Utility/FileSystem.hpp"
+#include "Data.hpp"
 
 NS_BEGIN
 
@@ -124,6 +125,42 @@ void Material::Bind()
 uint Material::GetProgram()const
 {
 	return program;
+}
+
+void Material::SetFloat(std::string name, float& value)
+{
+	uint location = glGetUniformLocation(program, name.c_str());
+	glProgramUniform1f(program, location, value);
+}
+
+void Material::SetFloat2(std::string name, Vector2& value)
+{
+	uint location = glGetUniformLocation(program, name.c_str());
+	glProgramUniform2f(program, location, value.x, value.y);
+}
+
+void Material::SetFloat3(std::string name, Vector3& value)
+{
+	uint location = glGetUniformLocation(program, name.c_str());
+	glProgramUniform3f(program, location, value.x, value.y, value.z);
+}
+
+void Material::SetFloat4(std::string name, Vector4& value)
+{
+	uint location = glGetUniformLocation(program, name.c_str());
+	glProgramUniform4f(program, location, value.x, value.y, value.z, value.w);
+}
+
+void Material::SetFloat4x4(std::string name, Matrix& value)
+{
+	uint location = glGetUniformLocation(program, name.c_str());
+	glProgramUniformMatrix4fv(program, location, 1, GL_TRUE, &value.m11);
+}
+
+void Material::SetColor(std::string name, Color& color)
+{
+	uint location = glGetUniformLocation(program, name.c_str());
+	glProgramUniform4f(program, location, color.r, color.g, color.b, color.a);
 }
 
 NS_END

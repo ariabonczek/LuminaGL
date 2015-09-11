@@ -16,10 +16,11 @@ public:
 
 	Mesh& operator=(const Mesh& mesh);
 
-	void Bind();
-
 	void Draw();
 private:
+
+	void Bind();
+
 	uint vertexBuffer;
 	uint vertexArray;
 	uint indexBuffer;

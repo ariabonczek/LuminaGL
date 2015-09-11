@@ -13,7 +13,7 @@ public:
 	~MeshBuilder();
 
 	//static Mesh CreateSphere(float radius, uint numSubdivisions, Color color = Color::Gray);
-	//static Mesh CreateCube(float size, Color color = Color::Gray);
+	static MeshData CreateCube(float size, Color color = Color::Gray);
 	//static Mesh CreateCylinder(float radius, float height, uint numSubdivisions, Color color = Color::Gray);
 	//static Mesh CreateCone(float radius, float height, uint numSubdivisions, Color color = Color::Gray);
 	//static Mesh CreateTube(float outerRadius, float innerRadius, float height, uint numSubdivisions, Color color = Color::Gray);
