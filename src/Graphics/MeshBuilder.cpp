@@ -163,9 +163,10 @@ uint MeshBuilder::CreateVertexLine(Vector3 from, Vector3 to, uint steps, uint v,
 MeshData MeshBuilder::CreateCube(float size, Color color)
 {
 	MeshData data;
+	uint v = 0, i = 0;
 
-	data.vertices.resize(0);
-	data.indices.resize(0);
+	data.vertices.resize(24);
+	data.indices.resize(36);
 
 	MeshVertex cVert;
 	cVert.color = color;
@@ -178,207 +179,368 @@ MeshData MeshBuilder::CreateCube(float size, Color color)
 	cVert.normal = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(0.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(-size, size, -size);
 	cVert.normal = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(0.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, size, -size);
 	cVert.normal = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(1.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, -size, -size);
 	cVert.normal = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(1.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	// Back
 	cVert.position = Vector3(-size, -size, size);
 	cVert.normal = Vector3(0.0f, 0.0f, 1.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(0.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(-size, size, size);
 	cVert.normal = Vector3(0.0f, 0.0f, 1.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(0.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, size, size);
 	cVert.normal = Vector3(0.0f, 0.0f, 1.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(1.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, -size, size);
 	cVert.normal = Vector3(0.0f, 0.0f, 1.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(1.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	// Left
 	cVert.position = Vector3(-size, -size, size);
 	cVert.normal = Vector3(-1.0f, 0.0f, 0.0f);
 	cVert.tangent = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.texcoord = Vector2(0.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(-size, size, size);
 	cVert.normal = Vector3(-1.0f, 0.0f, 0.0f);
 	cVert.tangent = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.texcoord = Vector2(0.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(-size, size, -size);
 	cVert.normal = Vector3(-1.0f, 0.0f, 0.0f);
 	cVert.tangent = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.texcoord = Vector2(1.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(-size, -size, -size);
 	cVert.normal = Vector3(-1.0f, 0.0f, 0.0f);
 	cVert.tangent = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.texcoord = Vector2(1.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	// Right
 	cVert.position = Vector3(size, -size, -size);
 	cVert.normal = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.tangent = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.texcoord = Vector2(0.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, size, -size);
 	cVert.normal = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.tangent = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.texcoord = Vector2(0.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, size, size);
 	cVert.normal = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.tangent = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.texcoord = Vector2(1.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, -size, size);
 	cVert.normal = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.tangent = Vector3(0.0f, 0.0f, -1.0f);
 	cVert.texcoord = Vector2(1.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	// Top
 	cVert.position = Vector3(-size, size, -size);
 	cVert.normal = Vector3(0.0f, 1.0f, 0.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(0.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(-size, size, size);
 	cVert.normal = Vector3(0.0f, 1.0f, 0.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(0.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, size, size);
 	cVert.normal = Vector3(0.0f, 1.0f, 0.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(1.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, size, -size);
 	cVert.normal = Vector3(0.0f, 1.0f, 0.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(1.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	// Bottom
 	cVert.position = Vector3(-size, -size, -size);
 	cVert.normal = Vector3(0.0f, -1.0f, 0.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(0.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(-size, -size, size);
 	cVert.normal = Vector3(0.0f, -1.0f, 0.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(0.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, -size, size);
 	cVert.normal = Vector3(0.0f, -1.0f, 0.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(1.0f, 0.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	cVert.position = Vector3(size, -size, -size);
 	cVert.normal = Vector3(0.0f, -1.0f, 0.0f);
 	cVert.tangent = Vector3(1.0f, 0.0f, 0.0f);
 	cVert.texcoord = Vector2(1.0f, 1.0f);
-	data.vertices.push_back(cVert);
+	data.vertices[v++] = cVert;
 
 	// INDICES
-	data.indices.push_back(0);
-	data.indices.push_back(1);
-	data.indices.push_back(3);
-	data.indices.push_back(3);
-	data.indices.push_back(1);
-	data.indices.push_back(2);
+	data.indices[i++] = (0);
+	data.indices[i++] = (1);
+	data.indices[i++] = (3);
+	data.indices[i++] = (3);
+	data.indices[i++] = (1);
+	data.indices[i++] = (2);
 
-	data.indices.push_back(4);
-	data.indices.push_back(6);
-	data.indices.push_back(5);
-	data.indices.push_back(6);
-	data.indices.push_back(4);
-	data.indices.push_back(7);
+	data.indices[i++] = (4);
+	data.indices[i++] = (6);
+	data.indices[i++] = (5);
+	data.indices[i++] = (6);
+	data.indices[i++] = (4);
+	data.indices[i++] = (7);
 
-	data.indices.push_back(8);
-	data.indices.push_back(9);
-	data.indices.push_back(10);
-	data.indices.push_back(10);
-	data.indices.push_back(11);
-	data.indices.push_back(8);
+	data.indices[i++] = (8);
+	data.indices[i++] = (9);
+	data.indices[i++] = (10);
+	data.indices[i++] = (10);
+	data.indices[i++] = (11);
+	data.indices[i++] = (8);
 
-	data.indices.push_back(12);
-	data.indices.push_back(13);
-	data.indices.push_back(14);
-	data.indices.push_back(14);
-	data.indices.push_back(15);
-	data.indices.push_back(12);
+	data.indices[i++] = (12);
+	data.indices[i++] = (13);
+	data.indices[i++] = (14);
+	data.indices[i++] = (14);
+	data.indices[i++] = (15);
+	data.indices[i++] = (12);
 
-	data.indices.push_back(16);
-	data.indices.push_back(17);
-	data.indices.push_back(18);
-	data.indices.push_back(18);
-	data.indices.push_back(19);
-	data.indices.push_back(16);
+	data.indices[i++] = (16);
+	data.indices[i++] = (17);
+	data.indices[i++] = (18);
+	data.indices[i++] = (18);
+	data.indices[i++] = (19);
+	data.indices[i++] = (16);
 
-	data.indices.push_back(20);
-	data.indices.push_back(22);
-	data.indices.push_back(21);
-	data.indices.push_back(20);
-	data.indices.push_back(23);
-	data.indices.push_back(22);
+	data.indices[i++] = (20);
+	data.indices[i++] = (22);
+	data.indices[i++] = (21);
+	data.indices[i++] = (20);
+	data.indices[i++] = (23);
+	data.indices[i++] = (22);
 
 	return data;
 }
 
-//Mesh MeshBuilder::CreateCylinder(float radius, float size, uint numSubdivisions, Color color)
-//{
-//
-//}
-//
-//Mesh MeshBuilder::CreateCone(float radius, float size, uint numSubdivisions, Color color)
-//{
-//
-//}
-//
+MeshData MeshBuilder::CreateCylinder(float radius, float height, uint axisDivisions, uint heightDivisions, Color color)
+{
+	MeshData data;
+
+	uint v = 0, t = 0;
+	uint numVerts = 2 + (axisDivisions * (heightDivisions + 1));
+	uint numTris = 2 * axisDivisions + 2 * heightDivisions * axisDivisions;
+	data.vertices.resize(numVerts);
+	data.indices.resize(numTris * 3);
+
+	height *= 0.5f;
+
+	data.vertices[v++].position = Vector3::Up * -height;
+
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		float theta = ((float)i / axisDivisions) * PI * 2;
+		float x = cosf(theta) * radius;
+		float z = sinf(theta) * radius;
+		v = CreateVertexLineC(Vector3(x, -height, z), Vector3(x, height, z), heightDivisions, v, data.vertices);
+	}
+
+	data.vertices[v++].position = Vector3::Up * height;
+
+	///
+	// Indices
+	///
+
+	// bottom circle
+	uint base = 1;
+	for (uint i = 1; i <= axisDivisions; i++)
+	{
+		data.indices[t++] = 0;
+		data.indices[t++] = base;
+		data.indices[t++] = base + (heightDivisions + 1);
+
+		base += heightDivisions + 1;
+	}
+
+	data.indices[t - 1] = 1;
+
+	// rings
+	for (uint i = 1; i <= heightDivisions ; i++)
+	{
+		t = CreateRing(axisDivisions, heightDivisions + 1, i, t, data.indices);
+	}
+
+	// Top circle
+	for (uint i = 1; i <= axisDivisions; i++)
+	{
+		data.indices[t++] = (heightDivisions + 1) * i;
+		data.indices[t++] = data.vertices.size() - 1;
+		data.indices[t++] = (heightDivisions + 1) * i + (heightDivisions + 1);
+	}
+
+	data.indices[t - 1] = heightDivisions + 1;
+
+	for (uint i = 0; i < data.vertices.size(); i++)
+	{
+		data.vertices[i].color = color;
+	}
+
+	return data;
+}
+
+uint MeshBuilder::CreateVertexLineC(Vector3 from, Vector3 to, uint steps, uint v, std::vector<MeshVertex>& vertices)
+{
+	for (int i = 0; i <= steps; i++)
+	{
+		vertices[v++].position = Vector3::Lerp(from, to, (float)i / steps);
+	}
+	return v;
+}
+
+
+MeshData MeshBuilder::CreateCone(float radius, float height, uint axisDivisions, uint heightDivisions, Color color)
+{
+	MeshData data;
+
+	uint v = 0, t = 0;
+
+	uint numVerts = 2 + (axisDivisions * heightDivisions);
+	uint numTris = axisDivisions * ((2 * heightDivisions) - 1) + axisDivisions;
+	data.vertices.resize(numVerts);
+	data.indices.resize(numTris * 3);
+
+	height *= 0.5f; // centering our cone at the origion
+
+	///
+	// Vertices
+	///
+	// bottom
+	data.vertices[v++].position = Vector3::Up * -height;
+
+	// rings
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		float theta = ((float)i / axisDivisions) * PI * 2;
+		float x = cosf(theta) * radius;
+		float z = sinf(theta) * radius;
+		v = CreateVertexLine(Vector3::Up * -height, Vector3(x, height, z), heightDivisions , v, data.vertices);
+	}
+
+	// top
+	data.vertices[v++].position = Vector3::Up * height;
+
+
+	///
+	// Indices
+	///
+	// bottom "ring"
+	uint nextAxis;
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		nextAxis = i * heightDivisions;
+		data.indices[t++] = 0;
+		data.indices[t++] = nextAxis + 1;
+		data.indices[t++] = nextAxis + heightDivisions + 1;
+	}
+	
+	// Set the last value back to one
+	data.indices[t - 1] = 1;
+
+	// Remaining "rings"
+	for (uint i = 1; i < heightDivisions; i++)
+	{
+		t = CreateRing(axisDivisions, heightDivisions, i, t, data.indices);
+	}
+
+	// Top circle
+	for (uint i = 1; i <= axisDivisions; i++)
+	{
+		data.indices[t++] = heightDivisions * i;
+		data.indices[t++] = data.vertices.size() - 1;
+		data.indices[t++] = heightDivisions * i + heightDivisions;
+	}
+
+	data.indices[t - 1] = heightDivisions;
+
+	for (uint i = 0; i < data.vertices.size(); i++)
+	{
+		data.vertices[i].color = color;
+	}
+
+	return data;
+}
+
+uint MeshBuilder::CreateRing(uint axisDivisions, uint heightDivisions, uint h, uint t, std::vector<uint>& indices)
+{
+	uint base = h;
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		indices[t++] = base;					 // 1 6
+		indices[t++] = base + 1;				 // 2 7
+		indices[t++] = base + heightDivisions;	 // 6 11
+
+		indices[t++] = base + heightDivisions; 		// 6 11
+		indices[t++] = base + 1;					// 2 7
+		indices[t++] = base + heightDivisions + 1;	// 7 12
+
+		base += heightDivisions;			// 6 11
+	}
+
+	indices[t - 4] = h;
+	indices[t - 3] = h;
+	indices[t - 1] = h + 1;
+
+	return t;
+}
+
+
 //Mesh MeshBuilder::CreateTube(float outerRadius, float innerRadius, float size, uint numSubdivisions, Color color)
 //{
 //

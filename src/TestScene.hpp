@@ -18,13 +18,13 @@ public:
 private:
 	void MoveCamera(float dt);
 
+	bool polygonFlag;
+
 	Camera camera;
 	Mesh* mesh;
 	Material* mat;
 
-	Mesh* mesh2;
 	Matrix world;
-	Matrix world2;
 };
 
 

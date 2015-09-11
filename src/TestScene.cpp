@@ -10,7 +10,7 @@ void TestScene::LoadAssets()
 {
 	camera.Initialize();
 
-	mesh = new Mesh(MeshBuilder::CreateSphere(2.0f, 4, Color::Blue));
+	mesh = new Mesh(MeshBuilder::CreateCylinder(1.0f, 3.0f, 25, 4, Color::Red));
 
 	mat = new Material();
 	mat->LoadShader("Shaders/default.vert", ShaderType::Vertex);
@@ -24,12 +24,18 @@ void TestScene::Update(float dt)
 {
 	MoveCamera(dt);
 
+	if (Input::GetKeyDown(GLFW_KEY_SPACE))
+	{
+		polygonFlag ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		polygonFlag = !polygonFlag;
+	}
+
 	if (camera.IsDirty())
 	{
 		camera.UpdateViewMatrix();
 	}
 	
-	world = world * Matrix::CreateFromQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, dt * 10.0));
+	//world = world * Matrix::CreateFromQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, dt * 10.0));
 
 	mat->SetFloat4x4("model", world);
 	mat->SetFloat4x4("view", camera.GetView());
