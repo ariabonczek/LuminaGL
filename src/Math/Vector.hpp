@@ -5,6 +5,8 @@
 
 NS_BEGIN
 
+#define lerp(f1, f2, t) f1 + (f2 - f1) * t
+
 struct Matrix;
 typedef unsigned int uint;
 
@@ -83,7 +85,7 @@ struct Vector2
 	/// Returns the dot product of two vectors
 	/// </summary>
 	static float   Dot(Vector2 v1, Vector2 v2);
-
+	
 	/// <summary>
 	/// Returns the maximum values of two vectors
 	/// </summary>
@@ -213,6 +215,8 @@ struct Vector3
 	/// Returns the dot product of two vectors
 	/// </summary>
 	static float   Dot(Vector3 v1, Vector3 v2);
+
+	static Vector3 Lerp(Vector3 v1, Vector3 v2, float t);
 
 	/// <summary>
 	/// Returns the maximum values of two vectors

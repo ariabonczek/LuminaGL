@@ -31,6 +31,8 @@ void Window::Initialize(uint width, uint height, std::string title)
 
 	glEnable(GL_MULTISAMPLE);
 
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	Input::Initialize(window);

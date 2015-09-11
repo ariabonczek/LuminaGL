@@ -120,12 +120,14 @@ Vector3 Vector3::Clamp(Vector3 v, Vector3 min, Vector3 max)
 
 	return v;
 }
+
 Vector3 Vector3::Cross(Vector3 v1, Vector3 v2) { float x = v1.y * v2.z - v1.z * v2.y; float y = v1.z * v2.x - v1.x * v2.z; float z = v1.x * v2.y - v1.y * v2.x; return Vector3(x, y, z); }
 float   Vector3::Distance(Vector3 v1, Vector3 v2) { Vector3 v = Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z); return sqrtf(v.x*v.x + v.y*v.y + v.z*v.z); }
 float   Vector3::DistanceSquared(Vector3 v1, Vector3 v2) { Vector3 v = Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z); return v.x*v.x + v.y*v.y + v.z*v.z; }
 Vector3 Vector3::Divide(Vector3 v1, Vector3 v2) { return Vector3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z); }
 Vector3 Vector3::Divide(Vector3 v, float d) { return Vector3(v.x / d, v.y / d, v.z / d); }
 float   Vector3::Dot(Vector3 v1, Vector3 v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
+Vector3 Vector3::Lerp(Vector3 v1, Vector3 v2, float t) { return Vector3(lerp(v1.x, v2.x, t), lerp(v1.y, v2.y, t), lerp(v1.z, v2.z, t)); }
 Vector3 Vector3::Max(Vector3 v1, Vector3 v2) { return Vector3(std::max(v1.x, v2.x), std::max(v1.y, v2.y), std::max(v1.z, v2.z)); }
 Vector3 Vector3::Min(Vector3 v1, Vector3 v2) { return Vector3(std::min(v1.x, v2.x), std::min(v1.y, v2.y), std::min(v1.z, v2.z)); }
 Vector3 Vector3::Multiply(Vector3 v1, Vector3 v2) { return Vector3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z); }

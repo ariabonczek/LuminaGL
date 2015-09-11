@@ -9,11 +9,14 @@ layout(location = 4) in vec3 tangent;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform mat4 modelInverseTranspose;
 
 out vec4 _color;
+out vec3 _normal;
 
 void main()
 {
 	_color = color;
+	_normal = mat3(modelInverseTranspose) * normal;
 	gl_Position = projection * view * model * vec4(position, 1.0);
 }

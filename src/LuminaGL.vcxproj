@@ -140,6 +140,10 @@ xcopy "$(SolutionDir)bin\*" "$(OutDir)" /s /y</Command>
     <ClInclude Include="Utility\Timer.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\content\Shaders\default.frag" />
+    <None Include="..\content\Shaders\default.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

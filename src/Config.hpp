@@ -23,4 +23,6 @@
 #include <vector>
 #include <algorithm>
 
+typedef unsigned char byte;
+
 #endif
