@@ -11,27 +11,21 @@ TestScene::~TestScene()
 
 void TestScene::LoadAssets()
 {
-	srand(time(0));
-	int numObjects = rand() % 23 + 5;
-
 	camera.Initialize();
 	
 	cube = new Mesh(MeshBuilder::CreateCube(1.0f, Color::Red));
 	sphere = new Mesh(MeshBuilder::CreateSphere(1.0f, 3, Color::Green));
 	cylinder = new Mesh(MeshBuilder::CreateCylinder(1.0f, 1.0f, 25, 3, Color::Blue));
 	cone = new Mesh(MeshBuilder::CreateCone(1.0f, 1.0f, 25, 3, Color::Yellow));
+	tube = new Mesh(MeshBuilder::CreateTube(1.0f, 0.7f, 1.0f, 25, 3, Color::Red));
 
 	mat = new Material();
 	mat->LoadShader("Shaders/default.vert", ShaderType::Vertex);
 	mat->LoadShader("Shaders/default.frag", ShaderType::Fragment);
 
-	camera.SetPosition(Vector3(0.0f, 0.0f, -35.0f));
+	camera.SetPosition(Vector3(0.0f, 0.0f, -10.0f));
 
-	for (uint i = 0; i < numObjects; ++i)
-	{
-		objects.push_back(new GameObject("Sphere", sphere, mat));
-		objects[i]->GetTransform()->SetLocalPosition(Vector3::Lerp(Vector3::Right * -numObjects, Vector3::Right * numObjects, (float)i / numObjects));
-	}
+	objects.push_back(new GameObject("Sphere", tube, mat));
 }
 
 void TestScene::Update(float dt)

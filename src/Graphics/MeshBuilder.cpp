@@ -526,13 +526,13 @@ uint MeshBuilder::CreateRing(uint axisDivisions, uint heightDivisions, uint h, u
 	uint base = h;
 	for (uint i = 0; i < axisDivisions; i++)
 	{
-		indices[t++] = base;					 // 1 6
-		indices[t++] = base + 1;				 // 2 7
-		indices[t++] = base + heightDivisions;	 // 6 11
+		indices[t++] = base;					 // 1 6			// 0
+		indices[t++] = base + 1;				 // 2 7			// 1
+		indices[t++] = base + heightDivisions;	 // 6 11		// 2
 
-		indices[t++] = base + heightDivisions; 		// 6 11
-		indices[t++] = base + 1;					// 2 7
-		indices[t++] = base + heightDivisions + 1;	// 7 12
+		indices[t++] = base + heightDivisions; 		// 6 11		// 2
+		indices[t++] = base + 1;					// 2 7		// 1
+		indices[t++] = base + heightDivisions + 1;	// 7 12		// 3
 
 		base += heightDivisions;			// 6 11
 	}
@@ -544,15 +544,241 @@ uint MeshBuilder::CreateRing(uint axisDivisions, uint heightDivisions, uint h, u
 	return t;
 }
 
+uint MeshBuilder::CreateInnerTubeRing(uint axisDivisions, uint heightDivisions, uint h, uint t, std::vector<uint>& indices)
+{
+	uint base = h;
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		uint next = base + heightDivisions + 1;
 
-//MeshData MeshBuilder::CreateTube(float outerRadius, float innerRadius, float size, uint numSubdivisions, Color color)
-//{
-//
-//}
+		indices[t++] = base;	
+		indices[t++] = next + 1;
+		indices[t++] = base + 1;
 
-//Mesh MeshBuilder::CreateTorus(float outerRadius, float innerRadius, uint numSubdivisions, Color color)
+		indices[t++] = base;
+		indices[t++] = next; 	
+		indices[t++] = next + 1;
+
+		// NOTE: DIFFERENCE FROM CREATE RING IS THE PLUS ONE, CLEAN THIS UP
+		base += heightDivisions + 1;			// 6 11			// 2
+	}
+
+	indices[t - 5] = h + 1;
+	indices[t - 2] = h;
+	indices[t - 1] = h + 1;
+
+	return t;
+}
+
+uint MeshBuilder::CreateOuterTubeRing(uint axisDivisions, uint heightDivisions, uint h, uint t, std::vector<uint>& indices)
+{
+	uint base = h;
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		uint next = base + heightDivisions + 1;
+
+		indices[t++] = base;	
+		indices[t++] = base + 1;
+		indices[t++] = next;	
+
+		indices[t++] = next; 	
+		indices[t++] = base + 1;
+		indices[t++] = next + 1;
+
+		// NOTE: DIFFERENCE FROM CREATE RING IS THE PLUS ONE, CLEAN THIS UP
+		base += heightDivisions + 1;			// 6 11			// 2
+	}
+
+	indices[t - 4] = h;
+	indices[t - 3] = h;
+	indices[t - 1] = h + 1;
+
+	return t;
+}
+
+MeshData MeshBuilder::CreateTube(float outerRadius, float innerRadius, float height, uint axisDivisions, uint heightDivisions, Color color)
+{
+	MeshData data;
+
+	uint v = 0, t = 0;
+	uint numVerts = 4 * axisDivisions + (heightDivisions - 1) * axisDivisions * 2;
+	uint numTris = 4 * axisDivisions + 2 * heightDivisions * axisDivisions * 2;
+	data.vertices.resize(numVerts);
+	data.indices.resize(numTris * 3);
+
+	height *= 0.5f;
+
+	// Inner "Cylinder"
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		float theta = ((float)i / axisDivisions) * PI * 2;
+		float x = cosf(theta) * innerRadius;
+		float z = sinf(theta) * innerRadius;
+		v = CreateVertexLineC(Vector3(x, -height, z), Vector3(x, height, z), heightDivisions, v, data.vertices);
+	}
+
+	// Outer "Cylinder"
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		float theta = ((float)i / axisDivisions) * PI * 2;
+		float x = cosf(theta) * outerRadius;
+		float z = sinf(theta) * outerRadius;
+		v = CreateVertexLineC(Vector3(x, -height, z), Vector3(x, height, z), heightDivisions, v, data.vertices);
+	}
+
+	///
+	// Indices
+	///
+
+	// Inner "Cylinder"
+
+	// bottom circle
+	uint offsetToOuter = axisDivisions * (heightDivisions + 1);
+	uint offsetToNext = heightDivisions + 1;
+	uint base = 0;
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		uint next = base + offsetToNext;
+		uint outer = base + offsetToOuter;
+
+		// TODO: better way without branching
+		if (i == axisDivisions - 1)
+		{
+			data.indices[t++] = base;
+			data.indices[t++] = outer;
+			data.indices[t++] = 0;
+
+			data.indices[t++] = 0;
+			data.indices[t++] = outer;
+			data.indices[t++] = offsetToOuter;
+			break;
+		}
+		data.indices[t++] = base;
+		data.indices[t++] = outer;
+		data.indices[t++] = next;
+							
+		data.indices[t++] = next;
+		data.indices[t++] = outer;
+		data.indices[t++] = outer + offsetToNext;
+
+		base = next;
+	}
+	//
+	// inner rings
+	for (uint i = 0; i < heightDivisions; i++)
+	{
+		t = CreateInnerTubeRing(axisDivisions, heightDivisions, i, t, data.indices);
+	}
+	
+	// outer rings
+	for (uint i = 0; i < heightDivisions; i++)
+	{
+		t = CreateOuterTubeRing(axisDivisions, heightDivisions, offsetToOuter + i, t, data.indices);
+	}
+	
+	
+	base = heightDivisions;
+	for (uint i = 0; i < axisDivisions; i++)
+	{
+		uint next = base + offsetToNext;
+		uint outer = base + offsetToOuter;
+
+		// TODO: better way without branching
+		if (i == axisDivisions - 1)
+		{
+			data.indices[t++] = base;
+			data.indices[t++] = heightDivisions + offsetToOuter;
+			data.indices[t++] = outer;
+
+			data.indices[t++] = base;
+			data.indices[t++] = heightDivisions;
+			data.indices[t++] = heightDivisions + offsetToOuter;
+			break;
+		}
+		data.indices[t++] = base;
+		data.indices[t++] = next + offsetToOuter;
+		data.indices[t++] = outer;
+
+		data.indices[t++] = base;
+		data.indices[t++] = next;
+		data.indices[t++] = outer + offsetToNext;
+
+		base = next;
+	}
+	
+	for (uint i = 0; i < data.vertices.size(); i++)
+	{
+		data.vertices[i].color = color;
+		//data.vertices[i].normal = Vector3::Normalize(data.vertices[i].position);
+	}
+
+	return data;
+}
+
+//MeshData MeshBuilder::CreateTorus(float outerRadius, float innerRadius, uint numSubdivisions, Color color)
 //{
+//	MeshData data;
 //
+//	uint v = 0, t = 0;
+//	uint numVerts = 2 + (axisDivisions * (heightDivisions + 1));
+//	uint numTris = 2 * axisDivisions + 2 * heightDivisions * axisDivisions;
+//	data.vertices.resize(numVerts);
+//	data.indices.resize(numTris * 3);
+//
+//	height *= 0.5f;
+//
+//	data.vertices[v++].position = Vector3::Up * -height;
+//
+//	for (uint i = 0; i < axisDivisions; i++)
+//	{
+//		float theta = ((float)i / axisDivisions) * PI * 2;
+//		float x = cosf(theta) * radius;
+//		float z = sinf(theta) * radius;
+//		v = CreateVertexLineC(Vector3(x, -height, z), Vector3(x, height, z), heightDivisions, v, data.vertices);
+//	}
+//
+//	data.vertices[v++].position = Vector3::Up * height;
+//
+//	///
+//	// Indices
+//	///
+//
+//	// bottom circle
+//	uint base = 1;
+//	for (uint i = 1; i <= axisDivisions; i++)
+//	{
+//		data.indices[t++] = 0;
+//		data.indices[t++] = base;
+//		data.indices[t++] = base + (heightDivisions + 1);
+//
+//		base += heightDivisions + 1;
+//	}
+//
+//	data.indices[t - 1] = 1;
+//
+//	// rings
+//	for (uint i = 1; i <= heightDivisions; i++)
+//	{
+//		t = CreateRing(axisDivisions, heightDivisions + 1, i, t, data.indices);
+//	}
+//
+//	// Top circle
+//	for (uint i = 1; i <= axisDivisions; i++)
+//	{
+//		data.indices[t++] = (heightDivisions + 1) * i;
+//		data.indices[t++] = data.vertices.size() - 1;
+//		data.indices[t++] = (heightDivisions + 1) * i + (heightDivisions + 1);
+//	}
+//
+//	data.indices[t - 1] = heightDivisions + 1;
+//
+//	for (uint i = 0; i < data.vertices.size(); i++)
+//	{
+//		data.vertices[i].color = color;
+//		data.vertices[i].normal = Vector3::Normalize(data.vertices[i].position);
+//	}
+//
+//	return data;
 //}
 
 MeshBuilder::MeshBuilder()

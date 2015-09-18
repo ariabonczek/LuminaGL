@@ -27,6 +27,7 @@ private:
 	Mesh* sphere;
 	Mesh* cylinder;
 	Mesh* cone;
+	Mesh* tube;
 	Material* mat;
 
 	Vector2 mousePosition;
