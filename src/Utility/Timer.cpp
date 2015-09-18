@@ -3,7 +3,7 @@
 // To use for frame timing, simply call StartFrame and EndFrame at the beginning and end of each frame
 // Then, a simple call to GetFrameTime(void) will return your value!
 // You can also time custom local points using Start(), End() and GetElapsedTime()
-// Justin Bonczek
+// Aria Bonczek
 //
 
 #include "Timer.hpp"

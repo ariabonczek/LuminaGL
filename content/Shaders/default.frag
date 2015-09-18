@@ -7,6 +7,6 @@ out vec4 finalColor;
 
 void main()
 {
-	float factor = dot(_normal, normalize(vec3(1.0, 1.0, 0.0)));	
+	float diffFactor = dot(_normal, normalize(vec3(0.0, 1.0, -1.0)));	
 	finalColor = _color;
 }

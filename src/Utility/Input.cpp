@@ -42,9 +42,9 @@ bool Input::GetKeyUp(int key)
 
 Vector2 Input::GetMousePosition()
 {
-	Vector2 p;
-	glfwGetCursorPos(window, (double*)&p.x, (double*)&p.y);
-	return p;
+	double x, y;
+	glfwGetCursorPos(window, &x, &y);
+	return Vector2((float)x, (float)y);
 }
 
 Input::Input()

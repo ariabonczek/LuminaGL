@@ -11,12 +11,14 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform mat4 modelInverseTranspose;
 
+uniform vec3 viewPos;
+
 out vec4 _color;
 out vec3 _normal;
 
 void main()
 {
 	_color = color;
-	_normal = mat3(modelInverseTranspose) * normal;
+	_normal = normal * mat3(modelInverseTranspose);
 	gl_Position = projection * view * model * vec4(position, 1.0);
 }

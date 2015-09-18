@@ -30,9 +30,12 @@ int Game::Run()
 
 		scene.Update(Timer::GetFrameTime());
 		scene.Draw();
-
+		
 		window.Display();
 		Timer::StopFrame();
+
+		window.UpdateFrameRate();
+		window.PrintFrameRate();
 	}
 
 	scene.UnloadAssets();

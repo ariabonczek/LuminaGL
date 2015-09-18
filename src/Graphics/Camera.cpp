@@ -142,6 +142,11 @@ Matrix Camera::GetViewProjection()const
 	return viewProjection;
 }
 
+Vector3 Camera::GetPosition()const
+{
+	return position;
+}
+
 bool Camera::IsDirty()const
 {
 	return dirty;

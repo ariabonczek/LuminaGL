@@ -1,4 +1,7 @@
 #include "TestScene.hpp"
+#include "Utility\Timer.hpp"
+#include <time.h>
+#include <random>
 
 TestScene::TestScene()
 {}
@@ -8,16 +11,27 @@ TestScene::~TestScene()
 
 void TestScene::LoadAssets()
 {
-	camera.Initialize();
+	srand(time(0));
+	int numObjects = rand() % 23 + 5;
 
-	mesh = new Mesh(MeshBuilder::CreateCylinder(1.0f, 3.0f, 25, 4, Color::Red));
+	camera.Initialize();
+	
+	cube = new Mesh(MeshBuilder::CreateCube(1.0f, Color::Red));
+	sphere = new Mesh(MeshBuilder::CreateSphere(1.0f, 3, Color::Green));
+	cylinder = new Mesh(MeshBuilder::CreateCylinder(1.0f, 1.0f, 25, 3, Color::Blue));
+	cone = new Mesh(MeshBuilder::CreateCone(1.0f, 1.0f, 25, 3, Color::Yellow));
 
 	mat = new Material();
 	mat->LoadShader("Shaders/default.vert", ShaderType::Vertex);
 	mat->LoadShader("Shaders/default.frag", ShaderType::Fragment);
 
-	camera.SetPosition(Vector3(0.0f, 0.0f, -10.0f));
-	world = Matrix::Identity;
+	camera.SetPosition(Vector3(0.0f, 0.0f, -35.0f));
+
+	for (uint i = 0; i < numObjects; ++i)
+	{
+		objects.push_back(new GameObject("Sphere", sphere, mat));
+		objects[i]->GetTransform()->SetLocalPosition(Vector3::Lerp(Vector3::Right * -numObjects, Vector3::Right * numObjects, (float)i / numObjects));
+	}
 }
 
 void TestScene::Update(float dt)
@@ -34,30 +48,48 @@ void TestScene::Update(float dt)
 	{
 		camera.UpdateViewMatrix();
 	}
-	
-	//world = world * Matrix::CreateFromQuaternion(Quaternion::CreateFromAxisAngle(Vector3::Up, dt * 10.0));
 
-	mat->SetFloat4x4("model", world);
+	for (uint i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Update(dt);
+	}
+	
 	mat->SetFloat4x4("view", camera.GetView());
 	mat->SetFloat4x4("projection", camera.GetProjection());
-	mat->SetFloat4x4("modelInverseTranspose", Matrix::Transpose(Matrix::Inverse(world)));
+	mat->SetFloat3("viewPos", camera.GetPosition());
 }
 
 void TestScene::Draw()
 {
 	mat->Bind();
 
-	mesh->Draw();
+	for (uint i = 0; i < objects.size(); i++)
+	{
+		objects[i]->GetMaterial()->SetFloat4x4("model", objects[i]->GetTransform()->GetWorldMatrix());
+		objects[i]->GetMaterial()->SetFloat4x4("modelInverseTranspose", Matrix::Transpose(Matrix::Inverse(objects[i]->GetTransform()->GetWorldMatrix())));
+		objects[i]->GetMesh()->Draw();
+	}
 }
 
 void TestScene::UnloadAssets()
 {
-	delete mesh;
-	mesh = nullptr;
+	for (GameObject* g : objects)
+		delete g;
+
+	delete mat;
+	mat = nullptr;
+	
+	delete cube;
+	delete sphere;
+	delete cylinder;
+	delete cone;
 }
 
 void TestScene::MoveCamera(float dt)
 {
+	pMousePosition = mousePosition;
+	mousePosition = Input::GetMousePosition();
+
 	float speed = 10.0f * dt;
 	if(Input::GetKey(GLFW_KEY_W))
 	{
@@ -77,7 +109,7 @@ void TestScene::MoveCamera(float dt)
 		camera.MoveRight(speed);
 	}
 
-	speed *= 5.0f;
+	speed *= 10.0f;
 
 	if (Input::GetKey(GLFW_KEY_UP))
 	{
@@ -95,5 +127,14 @@ void TestScene::MoveCamera(float dt)
 	else if (Input::GetKey(GLFW_KEY_RIGHT))
 	{
 		camera.RotateY(speed);
+	}
+	
+	// Mouse controls
+	if (Input::GetKey(GLFW_KEY_LEFT_ALT))
+	{
+		Vector2 diff = mousePosition - pMousePosition;
+
+		camera.RotateY(diff.x);
+		camera.Pitch(diff.y);
 	}
 }

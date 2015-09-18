@@ -31,6 +31,7 @@ public:
 	Matrix GetView()const;
 	Matrix GetProjection()const;
 	Matrix GetViewProjection()const;
+	Vector3 GetPosition()const;
 	bool IsDirty()const;
 
 private:

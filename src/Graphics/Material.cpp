@@ -80,7 +80,6 @@ bool Material::LoadShader(std::string filepath, ShaderType type)
 	glShaderSource(*index, 1, &shaderCode, 0);
 	glCompileShader(*index);
 
-#if DEBUG
 	GLint check;
 	glGetShaderiv(*index, GL_COMPILE_STATUS, &check);
 
@@ -94,13 +93,11 @@ bool Material::LoadShader(std::string filepath, ShaderType type)
 
 		return 0;
 	}
-#endif
 
 	glAttachShader(program, *index);
 
 	glLinkProgram(program);
 
-#if DEBUG
 	glGetProgramiv(program, GL_LINK_STATUS, &check);
 	if (!check)
 	{
@@ -113,7 +110,7 @@ bool Material::LoadShader(std::string filepath, ShaderType type)
 
 		return 0;
 	}
-#endif
+
 	return true;
 }
 

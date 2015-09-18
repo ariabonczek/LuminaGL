@@ -6,5 +6,6 @@
 #include "Material.hpp"
 #include "MeshBuilder.hpp"
 #include "Camera.hpp"
+#include "GameObject.hpp"
 
 #endif

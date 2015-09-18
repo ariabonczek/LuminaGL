@@ -43,8 +43,18 @@ public:
 	/// Swaps the buffers and displays the back buffer
 	/// </summary>
 	void Display();
+
+	void UpdateFrameRate();
+	void PrintFrameRate();
+	uint GetFrameRate()const;
+
 private:
 	GLFWwindow* window;
+
+	float elapsedTime1;
+	float elapsedTime5;
+	uint frameCount;
+	uint frameRate;
 };
 
 NS_END

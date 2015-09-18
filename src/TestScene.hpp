@@ -21,10 +21,16 @@ private:
 	bool polygonFlag;
 
 	Camera camera;
-	Mesh* mesh;
+	std::vector<GameObject*> objects;
+
+	Mesh* cube;
+	Mesh* sphere;
+	Mesh* cylinder;
+	Mesh* cone;
 	Material* mat;
 
-	Matrix world;
+	Vector2 mousePosition;
+	Vector2 pMousePosition;
 };
 
 

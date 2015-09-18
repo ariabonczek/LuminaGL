@@ -57,7 +57,7 @@ Mesh::~Mesh()
 }
 
 Mesh& Mesh::operator=(const Mesh& mesh)
-{
+{ 
 	vertexBuffer = mesh.vertexBuffer;
 	vertexArray = mesh.vertexArray;
 	indexBuffer = mesh.indexBuffer;

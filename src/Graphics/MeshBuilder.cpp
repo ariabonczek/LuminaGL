@@ -118,7 +118,7 @@ uint MeshBuilder::CreateUpperStrip(uint steps, uint vTop, uint vBottom, uint t, 
 	indices[t++] = vBottom;
 	indices[t++] = vTop - 1;
 	indices[t++] = ++vBottom;
-	for (int i = 1; i <= steps; i++)
+	for (uint i = 1; i <= steps; i++)
 	{
 		indices[t++] = vTop - 1;
 		indices[t++] = vTop;
@@ -153,7 +153,7 @@ uint MeshBuilder::CreateLowerStrip(uint steps, uint vTop, uint vBottom, uint t, 
 
 uint MeshBuilder::CreateVertexLine(Vector3 from, Vector3 to, uint steps, uint v, std::vector<MeshVertex>& vertices)
 {
-	for (int i = 1; i <= steps; i++)
+	for (uint i = 1; i <= steps; i++)
 	{
 		vertices[v++].position = Vector3::Lerp(from, to, (float)i / steps);
 	}
@@ -430,6 +430,7 @@ MeshData MeshBuilder::CreateCylinder(float radius, float height, uint axisDivisi
 	for (uint i = 0; i < data.vertices.size(); i++)
 	{
 		data.vertices[i].color = color;
+		data.vertices[i].normal = Vector3::Normalize(data.vertices[i].position);
 	}
 
 	return data;
@@ -437,7 +438,7 @@ MeshData MeshBuilder::CreateCylinder(float radius, float height, uint axisDivisi
 
 uint MeshBuilder::CreateVertexLineC(Vector3 from, Vector3 to, uint steps, uint v, std::vector<MeshVertex>& vertices)
 {
-	for (int i = 0; i <= steps; i++)
+	for (uint i = 0; i <= steps; i++)
 	{
 		vertices[v++].position = Vector3::Lerp(from, to, (float)i / steps);
 	}
@@ -512,6 +513,9 @@ MeshData MeshBuilder::CreateCone(float radius, float height, uint axisDivisions,
 	for (uint i = 0; i < data.vertices.size(); i++)
 	{
 		data.vertices[i].color = color;
+
+		// BAD
+		data.vertices[i].normal = Vector3::Normalize(data.vertices[i].position);
 	}
 
 	return data;
@@ -541,11 +545,11 @@ uint MeshBuilder::CreateRing(uint axisDivisions, uint heightDivisions, uint h, u
 }
 
 
-//Mesh MeshBuilder::CreateTube(float outerRadius, float innerRadius, float size, uint numSubdivisions, Color color)
+//MeshData MeshBuilder::CreateTube(float outerRadius, float innerRadius, float size, uint numSubdivisions, Color color)
 //{
 //
 //}
-//
+
 //Mesh MeshBuilder::CreateTorus(float outerRadius, float innerRadius, uint numSubdivisions, Color color)
 //{
 //

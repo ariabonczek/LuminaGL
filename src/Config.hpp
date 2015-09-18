@@ -15,13 +15,11 @@
 
 #include "Math\Math.hpp"
 
-#if DEBUG
-#include <iostream>
-#endif
-
 #include <string>
 #include <vector>
 #include <algorithm>
+
+#include <iostream>
 
 typedef unsigned char byte;
 
