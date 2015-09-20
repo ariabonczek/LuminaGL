@@ -23,11 +23,14 @@ private:
 	Camera camera;
 	std::vector<GameObject*> objects;
 
+	GameObject* toDraw;
+
 	Mesh* cube;
 	Mesh* sphere;
 	Mesh* cylinder;
 	Mesh* cone;
 	Mesh* tube;
+	Mesh* torus;
 	Material* mat;
 
 	Vector2 mousePosition;

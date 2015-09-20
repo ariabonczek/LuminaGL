@@ -18,8 +18,10 @@ void Window::Initialize(uint width, uint height, std::string title)
 {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
 	// Enable multisampling
 	glfwWindowHint(GLFW_SAMPLES, MSAA_SAMPLES);
+
 	window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 	glfwMakeContextCurrent(window);
 
@@ -72,6 +74,7 @@ void Window::Display()
 	glFlush();
 }
 
+#if LUMINA_DEBUG
 void Window::UpdateFrameRate()
 {
 	elapsedTime1 += Timer::GetFrameTime();
@@ -101,4 +104,5 @@ uint Window::GetFrameRate()const
 {
 	return frameRate;
 }
+#endif
 NS_END

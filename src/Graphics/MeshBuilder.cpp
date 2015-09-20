@@ -715,71 +715,78 @@ MeshData MeshBuilder::CreateTube(float outerRadius, float innerRadius, float hei
 	return data;
 }
 
-//MeshData MeshBuilder::CreateTorus(float outerRadius, float innerRadius, uint numSubdivisions, Color color)
-//{
-//	MeshData data;
-//
-//	uint v = 0, t = 0;
-//	uint numVerts = 2 + (axisDivisions * (heightDivisions + 1));
-//	uint numTris = 2 * axisDivisions + 2 * heightDivisions * axisDivisions;
-//	data.vertices.resize(numVerts);
-//	data.indices.resize(numTris * 3);
-//
-//	height *= 0.5f;
-//
-//	data.vertices[v++].position = Vector3::Up * -height;
-//
-//	for (uint i = 0; i < axisDivisions; i++)
-//	{
-//		float theta = ((float)i / axisDivisions) * PI * 2;
-//		float x = cosf(theta) * radius;
-//		float z = sinf(theta) * radius;
-//		v = CreateVertexLineC(Vector3(x, -height, z), Vector3(x, height, z), heightDivisions, v, data.vertices);
-//	}
-//
-//	data.vertices[v++].position = Vector3::Up * height;
-//
-//	///
-//	// Indices
-//	///
-//
-//	// bottom circle
-//	uint base = 1;
-//	for (uint i = 1; i <= axisDivisions; i++)
-//	{
-//		data.indices[t++] = 0;
-//		data.indices[t++] = base;
-//		data.indices[t++] = base + (heightDivisions + 1);
-//
-//		base += heightDivisions + 1;
-//	}
-//
-//	data.indices[t - 1] = 1;
-//
-//	// rings
-//	for (uint i = 1; i <= heightDivisions; i++)
-//	{
-//		t = CreateRing(axisDivisions, heightDivisions + 1, i, t, data.indices);
-//	}
-//
-//	// Top circle
-//	for (uint i = 1; i <= axisDivisions; i++)
-//	{
-//		data.indices[t++] = (heightDivisions + 1) * i;
-//		data.indices[t++] = data.vertices.size() - 1;
-//		data.indices[t++] = (heightDivisions + 1) * i + (heightDivisions + 1);
-//	}
-//
-//	data.indices[t - 1] = heightDivisions + 1;
-//
-//	for (uint i = 0; i < data.vertices.size(); i++)
-//	{
-//		data.vertices[i].color = color;
-//		data.vertices[i].normal = Vector3::Normalize(data.vertices[i].position);
-//	}
-//
-//	return data;
-//}
+MeshData MeshBuilder::CreateTorus(float radius, float sectionRadius, uint numDivisions, Color color)
+{
+	MeshData data;
+
+	uint v = 0, t = 0;
+	uint numVerts = numDivisions * numDivisions;
+	uint numTris = 2 * numDivisions * numDivisions;
+	data.vertices.resize(numVerts);
+	data.indices.resize(numTris * 3);
+
+	// Vertices
+	for (uint i = 0; i < numDivisions; ++i)
+	{
+		float theta = ((float)i / numDivisions) * PI * 2;
+		v = CreateTorusLoop(theta, radius, sectionRadius, numDivisions, v, data.vertices);
+	}
+
+	//Indices
+	for (uint i = 0; i < numDivisions; ++i)
+	{
+		uint base = i * numDivisions;
+		for (uint j = 0; j < numDivisions; ++j)
+		{
+			uint next, next_prev, current_prev;
+
+			i == numDivisions - 1 ? next = j : next = base + numDivisions;
+			j == 0 ? (next_prev = next + numDivisions - 1, current_prev = base + numDivisions - 1) : (next_prev = next - 1, current_prev = base - 1);
+
+			data.indices[t++] = base;
+			data.indices[t++] = next;
+			data.indices[t++] = next_prev;
+
+			data.indices[t++] = base;
+			data.indices[t++] = next_prev;
+			data.indices[t++] = current_prev;
+			base++;
+		}
+	}
+
+	for (uint i = 0; i < data.vertices.size(); i++)
+	{
+		data.vertices[i].color = color;
+		//data.vertices[i].normal = Vector3::Normalize(data.vertices[i].position);
+	}
+
+	return data;
+}
+
+uint MeshBuilder::CreateTorusLoop(float theta, float radius, float sectionRadius, uint heightDivisions, uint v, std::vector<MeshVertex>& vertices)
+{
+	float costheta = cosf(theta);
+	float sintheta = sinf(theta);
+	
+	float offset = 0.0f;
+
+	// bitwise-optimize this
+	if (heightDivisions % 2 != 0)
+	{
+		offset = 1.0f / heightDivisions * PI;
+	}
+	for (uint i = 0; i < heightDivisions; ++i)
+	{
+		float phi = ((float)i / heightDivisions) * PI * 2 + offset;
+		
+		float cosphi = cosf(phi);
+		float xy = radius + sectionRadius * cosphi;
+
+		vertices[v++].position = Vector3(costheta * xy, sectionRadius * sinf(phi), sintheta * xy);
+	}
+
+	return v;
+}
 
 MeshBuilder::MeshBuilder()
 {}

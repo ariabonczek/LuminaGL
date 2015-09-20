@@ -44,17 +44,20 @@ public:
 	/// </summary>
 	void Display();
 
+#if LUMINA_DEBUG
 	void UpdateFrameRate();
 	void PrintFrameRate();
 	uint GetFrameRate()const;
+#endif
 
 private:
 	GLFWwindow* window;
-
+#if LUMINA_DEBUG
 	float elapsedTime1;
 	float elapsedTime5;
 	uint frameCount;
 	uint frameRate;
+#endif
 };
 
 NS_END

@@ -33,9 +33,10 @@ int Game::Run()
 		
 		window.Display();
 		Timer::StopFrame();
-
+#if LUMINA_DEBUG
 		window.UpdateFrameRate();
 		window.PrintFrameRate();
+#endif
 	}
 
 	scene.UnloadAssets();

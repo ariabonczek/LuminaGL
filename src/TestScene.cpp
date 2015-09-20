@@ -18,6 +18,7 @@ void TestScene::LoadAssets()
 	cylinder = new Mesh(MeshBuilder::CreateCylinder(1.0f, 1.0f, 25, 3, Color::Blue));
 	cone = new Mesh(MeshBuilder::CreateCone(1.0f, 1.0f, 25, 3, Color::Yellow));
 	tube = new Mesh(MeshBuilder::CreateTube(1.0f, 0.7f, 1.0f, 25, 3, Color::Red));
+	torus = new Mesh(MeshBuilder::CreateTorus(1.0f, 0.3f, 20, Color::Cyan));
 
 	mat = new Material();
 	mat->LoadShader("Shaders/default.vert", ShaderType::Vertex);
@@ -25,7 +26,24 @@ void TestScene::LoadAssets()
 
 	camera.SetPosition(Vector3(0.0f, 0.0f, -10.0f));
 
-	objects.push_back(new GameObject("Sphere", tube, mat));
+	objects.push_back(new GameObject("Cube", cube, mat));
+	objects.push_back(new GameObject("Sphere", sphere, mat));
+	objects.push_back(new GameObject("Cylinder", cylinder, mat));
+	objects.push_back(new GameObject("Cone", cone, mat));
+	objects.push_back(new GameObject("Tube", tube, mat));
+	objects.push_back(new GameObject("Torus", torus, mat));
+
+	toDraw = objects[0];
+
+	std::cout << "Press 1 through 6 to swap between different mesh primitives." << std::endl;
+	std::cout << "1 - Cube" << std::endl;
+	std::cout << "2 - Sphere" << std::endl;
+	std::cout << "3 - Cylinder" << std::endl;
+	std::cout << "4 - Cone" << std::endl;
+	std::cout << "5 - Tube" << std::endl;
+	std::cout << "6 - Torus" << std::endl;
+	std::cout << "Press space to swap between fill and line polygon modes" << std::endl;
+	std::cout << "Move the camera with WASD, rotate it with Up/Down/Left/Right, or by holding alt and using the mouse." << std::endl;
 }
 
 void TestScene::Update(float dt)
@@ -38,6 +56,13 @@ void TestScene::Update(float dt)
 		polygonFlag = !polygonFlag;
 	}
 
+	if (Input::GetKeyDown(GLFW_KEY_1)){ toDraw = objects[0]; }
+	if (Input::GetKeyDown(GLFW_KEY_2)){ toDraw = objects[1]; }
+	if (Input::GetKeyDown(GLFW_KEY_3)){ toDraw = objects[2]; }
+	if (Input::GetKeyDown(GLFW_KEY_4)){ toDraw = objects[3]; }
+	if (Input::GetKeyDown(GLFW_KEY_5)){ toDraw = objects[4]; }
+	if (Input::GetKeyDown(GLFW_KEY_6)){ toDraw = objects[5]; }
+
 	if (camera.IsDirty())
 	{
 		camera.UpdateViewMatrix();
@@ -45,6 +70,7 @@ void TestScene::Update(float dt)
 
 	for (uint i = 0; i < objects.size(); i++)
 	{
+		objects[i]->GetTransform()->Rotate(Quaternion::CreateFromAxisAngle(Vector3::Up, dt * 20.0f));
 		objects[i]->Update(dt);
 	}
 	
@@ -57,12 +83,9 @@ void TestScene::Draw()
 {
 	mat->Bind();
 
-	for (uint i = 0; i < objects.size(); i++)
-	{
-		objects[i]->GetMaterial()->SetFloat4x4("model", objects[i]->GetTransform()->GetWorldMatrix());
-		objects[i]->GetMaterial()->SetFloat4x4("modelInverseTranspose", Matrix::Transpose(Matrix::Inverse(objects[i]->GetTransform()->GetWorldMatrix())));
-		objects[i]->GetMesh()->Draw();
-	}
+	toDraw->GetMaterial()->SetFloat4x4("model", toDraw->GetTransform()->GetWorldMatrix());
+	toDraw->GetMaterial()->SetFloat4x4("modelInverseTranspose", Matrix::Transpose(Matrix::Inverse(toDraw->GetTransform()->GetWorldMatrix())));
+	toDraw->GetMesh()->Draw();
 }
 
 void TestScene::UnloadAssets()
@@ -77,6 +100,8 @@ void TestScene::UnloadAssets()
 	delete sphere;
 	delete cylinder;
 	delete cone;
+	delete tube;
+	delete torus;
 }
 
 void TestScene::MoveCamera(float dt)
@@ -127,7 +152,7 @@ void TestScene::MoveCamera(float dt)
 	if (Input::GetKey(GLFW_KEY_LEFT_ALT))
 	{
 		Vector2 diff = mousePosition - pMousePosition;
-
+		diff = diff * 0.25f;
 		camera.RotateY(diff.x);
 		camera.Pitch(diff.y);
 	}

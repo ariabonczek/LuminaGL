@@ -12,12 +12,12 @@ class MeshBuilder
 public:
 	~MeshBuilder();
 
-	static MeshData CreateSphere(float radius, uint numSubdivisions, Color color = Color::Gray);
-	static MeshData CreateCube(float size, Color color = Color::Gray);
-	static MeshData CreateCylinder(float radius, float height, uint axisDivisions, uint heightDivisions, Color color = Color::Gray);
-	static MeshData CreateCone(float radius, float height, uint axisDivisions, uint heightDivisions, Color color = Color::Gray);
-	static MeshData CreateTube(float outerRadius, float innerRadius, float height, uint axisSubdivisions, uint heightDivisions, Color color = Color::Gray);
-	static MeshData CreateTorus(float outerRadius, float innerRadius, uint numSubdivisions, Color color = Color::Gray);
+	static MeshData CreateSphere(float radius = 1.0f, uint numSubdivisions = 3, Color color = Color::Gray);
+	static MeshData CreateCube(float size = 1.0f, Color color = Color::Gray);
+	static MeshData CreateCylinder(float radius = 0.5f, float height = 1.0, uint axisDivisions = 20, uint heightDivisions = 3, Color color = Color::Gray);
+	static MeshData CreateCone(float radius = 0.5f, float height = 1.0f, uint axisDivisions = 20, uint heightDivisions = 3, Color color = Color::Gray);
+	static MeshData CreateTube(float outerRadius = 1.0f, float innerRadius = 0.6f, float height = 1.0f, uint axisSubdivisions = 20, uint heightDivisions = 3, Color color = Color::Gray);
+	static MeshData CreateTorus(float radius = 1.0f, float sectionRadius = 0.5f, uint numSubdivisions = 20, Color color = Color::Gray);
 private:
 	MeshBuilder();
 
@@ -30,6 +30,8 @@ private:
 
 	static uint CreateInnerTubeRing(uint axisDivisions, uint heightDivisions, uint h, uint t, std::vector<uint>& indices);
 	static uint CreateOuterTubeRing(uint axisDivisions, uint heightDivisions, uint h, uint t, std::vector<uint>& indices);
+	
+	static uint CreateTorusLoop(float theta, float radius, float sectionRadius, uint heightDivisions, uint v, std::vector<MeshVertex>& vertices);
 };
 
 NS_END

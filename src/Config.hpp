@@ -8,7 +8,7 @@
 #define WINDOW_HEIGHT 720
 #define WINDOW_TITLE "LuminaGL"
 #define MSAA_SAMPLES 4
-#define DEBUG true
+#define LUMINA_DEBUG 1
 
 #include <GL\glew.h>
 #include <GLFW\glfw3.h> 
@@ -19,7 +19,12 @@
 #include <vector>
 #include <algorithm>
 
+#if LUMINA_DEBUG
 #include <iostream>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#endif
 
 typedef unsigned char byte;
 
